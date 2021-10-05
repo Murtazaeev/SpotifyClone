@@ -6,7 +6,7 @@ import { getTokenFromResponse } from "./spotify";
 import "./App.css";
 import Login from "./Login";
 
-const spotify = new SpotifyWebApi();
+const s = new SpotifyWebApi();
 
 function App() {
   const [{ token }, dispatch] = useStateValue();
@@ -18,21 +18,21 @@ function App() {
     let _token = hash.access_token;
 
     if (_token) {
-      spotify.setAccessToken(_token);
+      s.setAccessToken(_token);
 
       dispatch({
         type: "SET_TOKEN",
         token: _token,
       });
 
-      spotify.getPlaylist("37i9dQZEVXcJZyENOWUFo7").then((response) =>
+      s.getPlaylist("37i9dQZEVXcCUU0hRBiHDQ").then((response) =>
         dispatch({
           type: "SET_DISCOVER_WEEKLY",
           discover_weekly: response,
         })
       );
 
-      spotify.getMyTopArtists().then((response) =>
+      s.getMyTopArtists().then((response) =>
         dispatch({
           type: "SET_TOP_ARTISTS",
           top_artists: response,
@@ -41,36 +41,29 @@ function App() {
 
       dispatch({
         type: "SET_SPOTIFY",
-        spotify: spotify,
+        spotify: s,
       });
 
-      spotify.getMe().then((user) => {
-        dispatch ({
+      s.getMe().then((user) => {
+        dispatch({
           type: "SET_USER",
           user,
         });
       });
 
-      spotify.getUserPlaylists().then((playlists) => {
+      s.getUserPlaylists().then((playlists) => {
         dispatch({
           type: "SET_PLAYLISTS",
-          playlists:playlists,
+          playlists,
         });
       });
-      spotify.getMyDevices().then(({devices})=>{
-        console.log("My devices",devices[0].id)
-        dispatch({
-          type:"SET_DEVICE",
-          device_id:devices[0]?.id
-        })
-      })
     }
   }, [token, dispatch]);
 
   return (
     <div className="app">
       {!token && <Login />}
-      {token && <Player spotify={spotify} />}
+      {token && <Player spotify={s} />}
     </div>
   );
 }

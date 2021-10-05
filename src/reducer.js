@@ -1,39 +1,68 @@
+import { findAllByDisplayValue } from "@testing-library/react";
+
 export const initialState = {
-    users: null,
-    playlists: [],
-    playing: false,
-    item: null,
-    device_id:null,
-    //remove after finished developing!!!!!!!!!!!!!
-    //token: "BQAJs0T0wnDq84QZIC2n5RzJh3D9L0PQSpOwtCPpwVt6ugWKCUf6UqmQhnLwWr-NmVo9hUB2y3U8O54-5SdoJAWzxJlyCjuB1wvp8PIWzHaR1SRHaWBBf0R-28Tb3RXMH32WdEYGhiu677bKQKEvOcg6f18Z97hx25OUI6xfOcaMsQJVnWHF"
-}
+  user: null,
+  playlists: [],
+  spotify: null,
+  discover_weekly: null,
+  top_artists: null,
+  playing: false,
+  item: null,
+};
 
 const reducer = (state, action) => {
-    console.log(action);
+  console.log(action);
+  switch (action.type) {
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.user,
+      };
 
-    switch(action.type){
-        case 'SET_USER':
-            return {
-                ...state,
-                user: action.user
-            };
-            case 'SET_TOKEN': 
-            return{
-                ...state,
-                token: action.token,
-            }
-            case "SET_PLAYLISTS":
-                return{
-                    ...state,
-                    playlists: action.playlists
-                }
-            case "SET_DEVICE":
-                return{
-                  ...state,
-                  device_id:action.device_id,
-                }
-            default: 
-             return state;
-    }
-}
+    case "SET_PLAYING":
+      return {
+        ...state,
+        playing: action.playing,
+      };
+
+    case "SET_ITEM":
+      return {
+        ...state,
+        item: action.item,
+      };
+
+    case "SET_DISCOVER_WEEKLY":
+      return {
+        ...state,
+        discover_weekly: action.discover_weekly,
+      };
+
+    case "SET_TOP_ARTISTS":
+      return {
+        ...state,
+        top_artists: action.top_artists,
+      };
+
+    case "SET_TOKEN":
+      return {
+        ...state,
+        token: action.token,
+      };
+
+    case "SET_SPOTIFY":
+      return {
+        ...state,
+        spotify: action.spotify,
+      };
+
+    case "SET_PLAYLISTS":
+      return {
+        ...state,
+        playlists: action.playlists,
+      };
+    default:
+      return state;
+  }
+};
+
 export default reducer;
